@@ -8,12 +8,24 @@ import { MdHeight } from 'react-icons/md';
 // Set app element for accessibility
 Modal.setAppElement('#root');
 
-const JobModal = ({isShowButton, fetchJobs}) => {
+const AddJobModal = ({isShowButton, fetchJobs}) => {
 
     const [showModal, setShowModal] = useState(false);
 
     const closeModal = () => {
         setShowModal(false);
+    };
+
+    const clearForm = () => {
+        setTitle('');
+        setType('Full-Time');
+        setLocation('');
+        setDescription('');
+        setSalary('Under $50K');
+        setCompanyName('');
+        setCompanyDescription('');
+        setContactEmail('');
+        setContactPhone('');
     };
     
     const showClass = isShowButton
@@ -88,7 +100,8 @@ const JobModal = ({isShowButton, fetchJobs}) => {
                 className={`${showClass} h-[36px] bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg text-center text-sm mb-4`}
                 type='button'
                 onClick={() => {
-                  setShowModal(true);
+                    clearForm();
+                    setShowModal(true);
                 }  
               }
               >

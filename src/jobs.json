@@ -85,21 +85,7 @@
       }
     },
     {
-      "id": "166c",
-      "title": "Luca's job",
-      "type": "Full-Time",
-      "location": "Luca's job",
-      "description": "Luca's job",
-      "salary": "Over $200K",
-      "company": {
-        "name": "Luca's job",
-        "description": "Luca's job",
-        "contactEmail": "luca@test.com",
-        "contactPhone": "555555555"
-      }
-    },
-    {
-      "id": "8054",
+      "id": "b9d0",
       "title": "test1",
       "type": "Full-Time",
       "location": "test1",
@@ -110,20 +96,6 @@
         "description": "test1",
         "contactEmail": "test1@gmail.com",
         "contactPhone": "1111111111"
-      }
-    },
-    {
-      "id": "e8f4",
-      "title": "test2",
-      "type": "Full-Time",
-      "location": "test2",
-      "description": "test2",
-      "salary": "Under $50K",
-      "company": {
-        "name": "test2",
-        "description": "test2",
-        "contactEmail": "test2@gmail.com",
-        "contactPhone": "2222222222"
       }
     }
   ]

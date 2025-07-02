@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { FaMapMarker } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-const JobListing = ({ job }) => {
+const JobListing = ({ job, fetchJobs }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   let description = job.description;
@@ -10,6 +11,28 @@ const JobListing = ({ job }) => {
   if (!showFullDescription) {
     description = description.substring(0, 90) + '...';
   }
+
+  const onDeleteClick = () => {
+      const confirm = window.confirm(
+        'Are you sure you want to delete this listing?'
+      );
+  
+      if (!confirm) return;
+  
+      deleteJob(job.id);
+  
+      toast.success('Job deleted successfully');
+
+      fetchJobs();
+    };
+
+  // Delete Job
+  const deleteJob = async (id) => {
+    const res = await fetch(`/api/jobs/${id}`, {
+      method: 'DELETE',
+    });
+    return;
+  };
 
   return (
     <div className='bg-white rounded-xl shadow-md relative'>
@@ -37,9 +60,25 @@ const JobListing = ({ job }) => {
             <FaMapMarker className='inline text-lg mb-1 mr-1' />
             {job.location}
           </div>
+          <button
+                className='h-[36px] bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg text-center text-sm mr-0'
+                type='button'
+                onClick={() => {
+                }  
+              }
+              >
+                Edit Job
+              </button>
+              <button
+                className='h-[36px] bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg text-center text-sm mr-0'
+                type='button'
+                onClick={() => onDeleteClick()}
+              >
+                Delete Job
+              </button>
           <Link
             to={`/jobs/${job.id}`}
-            className='h-[36px] bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg text-center text-sm'
+            className='h-[36px] bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg text-center text-sm ml-0'
           >
             Read More
           </Link>
