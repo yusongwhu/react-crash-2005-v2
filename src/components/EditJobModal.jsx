@@ -8,7 +8,7 @@ import { MdHeight } from 'react-icons/md';
 // Set app element for accessibility
 Modal.setAppElement('#root');
 
-const AddJobModal = ({isShowButton, fetchJobs}) => {
+const EditJobModal = ({isShowButton, job, fetchJobs}) => {
 
     const [showModal, setShowModal] = useState(false);
 
@@ -16,68 +16,71 @@ const AddJobModal = ({isShowButton, fetchJobs}) => {
         setShowModal(false);
     };
 
-    const clearForm = () => {
-        setTitle('');
-        setType('Full-Time');
-        setLocation('');
-        setDescription('');
-        setSalary('Under $50K');
-        setCompanyName('');
-        setCompanyDescription('');
-        setContactEmail('');
-        setContactPhone('');
+    const initForm = () => {
+        setTitle(job.title);
+        setType(job.type);
+        setLocation(job.location);
+        setDescription(job.description);
+        setSalary(job.salary);
+        setCompanyName(job.company.name);
+        setCompanyDescription(job.company.description);
+        setContactEmail(job.company.contactEmail);
+        setContactPhone(job.company.contactPhone);
     };
     
     const showClass = isShowButton
       ? ''
       : 'invisible';
 
-    const [title, setTitle] = useState('');
-    const [type, setType] = useState('Full-Time');
-    const [location, setLocation] = useState('');
-    const [description, setDescription] = useState('');
-    const [salary, setSalary] = useState('Under $50K');
-    const [companyName, setCompanyName] = useState('');
-    const [companyDescription, setCompanyDescription] = useState('');
-    const [contactEmail, setContactEmail] = useState('');
-    const [contactPhone, setContactPhone] = useState('');
+    const [title, setTitle] = useState(job.title);
+    const [type, setType] = useState(job.type);
+    const [location, setLocation] = useState(job.location);
+    const [description, setDescription] = useState(job.description);
+    const [salary, setSalary] = useState(job.salary);
+    const [companyName, setCompanyName] = useState(job.company.name);
+    const [companyDescription, setCompanyDescription] = useState(
+        job.company.description
+    );
+    const [contactEmail, setContactEmail] = useState(job.company.contactEmail);
+    const [contactPhone, setContactPhone] = useState(job.company.contactPhone);
 
-    // Add New Job
-    const addJob = async (newJob) => {
-        const res = await fetch('/api/jobs', {
-        method: 'POST',
+    // Update Job
+    const updateJob = async (job) => {
+        const res = await fetch(`/api/jobs/${job.id}`, {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newJob),
+        body: JSON.stringify(job),
         });
         return;
     };
-
-    const navigate = useNavigate();
 
     const submitForm = (e) => {
         e.preventDefault();
 
         setShowModal(false);
 
-        const newJob = {
-            title,
-            type,
-            location,
-            description,
-            salary,
-            company: {
-                name: companyName,
-                description: companyDescription,
-                contactEmail,
-                contactPhone,
-            },
-        };
+        let id = job.id;
 
-        addJob(newJob);
+        const updatedJob = {
+                id,
+                title,
+                type,
+                location,
+                description,
+                salary,
+                company: {
+                    name: companyName,
+                    description: companyDescription,
+                    contactEmail,
+                    contactPhone,
+                },
+            };
 
-        toast.success('Job Added Successfully');
+        updateJob(updatedJob);
+
+        toast.success('Job Updated Successfully');
 
         fetchJobs();
     };
@@ -100,12 +103,12 @@ const AddJobModal = ({isShowButton, fetchJobs}) => {
                 className={`${showClass} h-[36px] bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg text-center text-sm mb-4`}
                 type='button'
                 onClick={() => {
-                    clearForm();
+                    initForm();
                     setShowModal(true);
                 }  
               }
               >
-                Add Job
+                Edit Job
               </button>
             <Modal isOpen={ showModal }
             onRequestClose={ closeModal }
@@ -116,7 +119,7 @@ const AddJobModal = ({isShowButton, fetchJobs}) => {
             >
                 
             <div className="bg-white rounded-lg shadow-lg p-6 w-full">
-                <h2 className="text-2xl font-bold mb-1">Add Job</h2>
+                <h2 className="text-2xl font-bold mb-1">Edit Job</h2>
                 <section className='bg-indigo-50'>
                     <div className='container m-auto max-w-2xl'>
                         <div className='bg-white px-6 py-8 shadow-md rounded-md border m-4 md:m-0'>
@@ -300,7 +303,7 @@ const AddJobModal = ({isShowButton, fetchJobs}) => {
                                 className='bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline mr-2'
                                 type='submit'
                             >
-                                Add Job
+                                Update Job
                             </button>
                             <button
                             onClick={closeModal}
@@ -321,4 +324,4 @@ const AddJobModal = ({isShowButton, fetchJobs}) => {
     )
 }
 
-export default AddJobModal
+export default EditJobModal

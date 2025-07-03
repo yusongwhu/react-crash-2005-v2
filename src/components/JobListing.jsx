@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FaMapMarker } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import EditJobModal from './EditJobModal';
 
 const JobListing = ({ job, fetchJobs }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -60,15 +61,8 @@ const JobListing = ({ job, fetchJobs }) => {
             <FaMapMarker className='inline text-lg mb-1 mr-1' />
             {job.location}
           </div>
-          <button
-                className='h-[36px] bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg text-center text-sm mr-0'
-                type='button'
-                onClick={() => {
-                }  
-              }
-              >
-                Edit Job
-              </button>
+
+              <EditJobModal isShowButton={true} job={job} fetchJobs={fetchJobs} />
               <button
                 className='h-[36px] bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg text-center text-sm mr-0'
                 type='button'
